@@ -1,0 +1,40 @@
+#!/usr/bin/perl
+
+use strict;
+use warnings;
+
+use CGI;
+use HTTP::Daemon;
+use HTTP::Response;
+use HTTP::Status qw(:constants);
+use JSON::Any;
+use Player;
+
+my $daemon = HTTP::Daemon->new(
+    LocalAddr => 'localhost',
+    LocalPort => '1234'
+) || die "Can't start daemon: $!";
+my $player = Player->new;
+
+while ( my $client = $daemon->accept ) {
+    while ( my $request = $client->get_request ) {
+        my $params     = CGI->new( $request->decoded_content )->Vars;
+        my $response   = HTTP::Response->new();
+        my $action     = $params->{action};
+        my $game_state = JSON::Any->decode( $params->{game_state} )
+            if defined $params->{game_state};
+
+        if ( $player->can($action) ) {
+            $response->code(HTTP_OK);
+            $response->content( $player->$action($game_state) );
+        }
+        else {
+            $response->code(HTTP_NOT_IMPLEMENTED);
+            $response->content("Unimplemented action");
+        }
+
+        $client->send_response($response);
+    }
+    $client->close;
+    undef($client);
+}

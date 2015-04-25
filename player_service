@@ -31,7 +31,7 @@ while ( my $client = $daemon->accept ) {
             $response->content( $player->$action($game_state) );
         }
         else {
-            $response->code(HTTP_OK);
+            $response->code(HTTP_NOT_IMPLEMENTED);
             $response->content("Unimplemented action");
         }
 

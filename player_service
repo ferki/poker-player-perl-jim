@@ -10,10 +10,12 @@ use HTTP::Status qw(:constants);
 use JSON::Any;
 use Player;
 
+my $port = $ENV{PORT} || 1234;
+
 my $daemon = HTTP::Daemon->new(
-    LocalAddr => 'localhost',
-    LocalPort => '1234'
+    LocalPort => $port,
 ) || die "Can't start daemon: $!";
+
 my $player = Player->new;
 
 while ( my $client = $daemon->accept ) {

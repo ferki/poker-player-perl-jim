@@ -14,6 +14,8 @@ sub bet_request {
     return 0;
 }
 
+sub check { }
+
 sub showdown { }
 
 sub version {

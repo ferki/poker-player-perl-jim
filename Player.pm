@@ -12,7 +12,7 @@ sub new {
 
 sub bet_request {
     my ( $self, $game_state ) = @_;
-    return 2;
+    return &strategos($game_state);
 }
 
 sub check { }
@@ -22,6 +22,12 @@ sub showdown { }
 sub version {
     my $self = shift;
     return $self->VERSION;
+}
+
+sub strategos {
+    my $game_state = shift;
+    my @hand       = &get_my_hands;
+    return 2;
 }
 
 sub get_my_hand {

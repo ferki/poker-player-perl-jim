@@ -3,7 +3,7 @@ package Player;
 use strict;
 use warnings;
 
-our $VERSION = '0.0.8';
+our $VERSION = '0.0.9';
 
 sub new {
     my $class = shift;
@@ -63,6 +63,22 @@ sub has_pair {
 sub has_suited {
     my $self = shift;
     return $self->{hand}[0]->{suit} = $self->{hand}[1]->{suit} ? 1 : 0;
+}
+
+sub has_ace {
+    my $self = shift;
+    return (
+             $self->{hand}[0]->{rank} eq 'A'
+          or $self->{hand}[1]->{rank} eq 'A'
+    ) ? 1 : 0;
+}
+
+sub has_king {
+    my $self = shift;
+    return (
+             $self->{hand}[0]->{rank} eq 'K'
+          or $self->{hand}[1]->{rank} eq 'K'
+    ) ? 1 : 0;
 }
 
 1;

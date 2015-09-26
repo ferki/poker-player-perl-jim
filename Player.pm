@@ -2,8 +2,9 @@ package Player;
 
 use strict;
 use warnings;
+use POSIX;
 
-our $VERSION = '0.0.17';
+our $VERSION = '0.0.18';
 
 sub new {
     my $class = shift;
@@ -90,9 +91,20 @@ sub has_king {
 
 sub raise_amount {
     my $self = shift;
-    return $self->{phase} eq 'preflop'
-      ? $self->{game_state}->{small_blind} * 2 * 4
-      : 100;
+    my $bet  = 0;
+    if ( $self->{phase} eq 'preflop' ) {
+        if ( $self->{game_state}->{pot} >
+            $self->{game_state}->{small_blind} * 3 )
+        {
+            $bet = ceil( $self->{game_state}->{pot} * 0.75 );
+        }
+        else {
+            $bet = $self->{game_state}->{small_blind} * 2 * 4;
+        }
+    }
+    else {
+        $bet = ceil( $self->{game_state}->{pot} * 0.75 );
+    }
 }
 
 sub check_amount {

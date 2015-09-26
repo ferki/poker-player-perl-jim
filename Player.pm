@@ -26,7 +26,7 @@ sub version {
 
 sub strategos {
     my $game_state = shift;
-    my @hand       = &get_my_hands;
+    my @hand       = &get_my_hand;
     return 2;
 }
 

@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use POSIX;
 
-our $VERSION = '0.0.18';
+our $VERSION = '0.0.19';
 
 sub new {
     my $class = shift;
@@ -63,6 +63,11 @@ sub get_my_stack {
 sub has_pair {
     my $self = shift;
     return $self->rank_diff == 0 ? 1 : 0;
+}
+
+sub has_connector {
+    my $self = shift;
+    return $self->rank_diff == 1 ? 1 : 0;
 }
 
 sub has_suited {

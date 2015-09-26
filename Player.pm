@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use POSIX;
 
-our $VERSION = '0.0.27';
+our $VERSION = '0.0.28';
 
 sub new {
     my $class = shift;
@@ -45,6 +45,9 @@ sub strategos {
               if ( $self->has_ace or $self->has_king );             # AA,KK
         }
         if ( $self->has_ace and $self->has_king ) {                 #AK
+            $bet = $self->raise_amount if not $self->raised_pot;
+        }
+        if ( $self->has_suited and $self->has_connector ) {
             $bet = $self->raise_amount if not $self->raised_pot;
         }
     }

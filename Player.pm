@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use POSIX;
 
-our $VERSION = '0.0.19';
+our $VERSION = '0.0.20';
 
 sub new {
     my $class = shift;
@@ -159,6 +159,23 @@ sub rank_diff {
     $diff = 1 if $diff == 12;
 
     return $diff;
+}
+
+sub raised_pot {
+    my $self       = shift;
+    my $raised_pot = 0;
+    if ( $self->{phase} eq 'preflop' ) {
+        if ( $self->{game_state}->{current_buyin} >
+            $self->{game_state}->{small_blind} * 3 )
+        {
+            $raised_pot = 1;
+        }
+    }
+    elsif ( $self->{game_state}->{current_buyin} > 0 ) {
+        $raised_pot = 1;
+    }
+
+    return $raised_pot;
 }
 
 1;

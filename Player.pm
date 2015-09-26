@@ -41,7 +41,7 @@ sub get_my_hand {
 
     foreach my $player ( @{ $game_state->{players} } ) {
         next if $player->{name} ne 'Perl Jim';
-        return [ @{ $player->{hole_cards} } ];
+        return $player->{hole_cards};
     }
 }
 
@@ -57,12 +57,12 @@ sub get_my_stack {
 
 sub has_pair {
     my $self = shift;
-    return $self->{hand}[0]->{rank} = $self->{hand}[1]->{rank} ? 1 : 0;
+    return $self->{hand}[0]->{rank} eq $self->{hand}[1]->{rank} ? 1 : 0;
 }
 
 sub has_suited {
     my $self = shift;
-    return $self->{hand}[0]->{suit} = $self->{hand}[1]->{suit} ? 1 : 0;
+    return $self->{hand}[0]->{suit} eq $self->{hand}[1]->{suit} ? 1 : 0;
 }
 
 sub has_ace {

@@ -3,7 +3,7 @@ package Player;
 use strict;
 use warnings;
 
-our $VERSION = '0.0.5';
+our $VERSION = '0.0.6';
 
 sub new {
     my $class = shift;
@@ -27,7 +27,7 @@ sub version {
 }
 
 sub strategos {
-    my $bet  = 2;
+    my $bet  = 0;
     my @hand = &get_my_hand;
     $bet = 5 if &has_pair;
     return $bet;

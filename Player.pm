@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use POSIX;
 
-our $VERSION = '0.0.30';
+our $VERSION = '0.0.31';
 
 sub new {
     my $class = shift;
@@ -66,7 +66,7 @@ sub strategos {
               if ( $self->has_ace or $self->has_king );             # AA,KK
         }
     }
-    return $bet;
+    return 0;
 }
 
 sub get_my_hand {

@@ -3,7 +3,7 @@ package Player;
 use strict;
 use warnings;
 
-our $VERSION = '0.0.6';
+our $VERSION = '0.0.7 - The Bond Edition';
 
 sub new {
     my $class = shift;
@@ -14,6 +14,7 @@ sub new {
 sub bet_request {
     my ( $self, $game_state ) = @_;
     $self->{game_state} = $game_state;
+    $self->{hand}       = $self->get_my_hand;
     return &strategos;
 }
 
@@ -27,9 +28,9 @@ sub version {
 }
 
 sub strategos {
+    my $self = shift;
     my $bet  = 0;
-    my @hand = &get_my_hand;
-    $bet = 5 if &has_pair;
+    $bet = 100 if $self->has_pair;
     return $bet;
 }
 
@@ -39,13 +40,13 @@ sub get_my_hand {
 
     foreach my $player ( @{ $game_state->{players} } ) {
         next if $player->{name} ne 'Perl Jim';
-        return @{ $player->{hole_cards} };
+        return [ @{ $player->{hole_cards} } ];
     }
 }
 
 sub has_pair {
-    my @hands = shift;
-    return $hands[0]->{rank} = $hands[1]->{rank} ? 1 : 0;
+    my $self = shift;
+    return $self->{hand}[0]->{rank} = $self->{hand}[1]->{rank} ? 1 : 0;
 }
 
 1;

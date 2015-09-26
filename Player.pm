@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use POSIX;
 
-our $VERSION = '0.0.33';
+our $VERSION = '0.0.34';
 
 sub new {
     my $class = shift;
@@ -45,7 +45,12 @@ sub strategos {
           if ( $self->has_ace or $self->has_king );    # AA,KK
     }
 
-    if ( $self->has_ace and $self->has_king ) {        #AK
+    if ( $self->has_pair and $self->has_rank('Q') ) {    #QQ
+        $bet = $self->allin_amount
+          if ( ( not $self->raised_pot ) and $self->{phase} eq 'preflop' );
+    }
+
+    if ( $self->has_ace and $self->has_king ) {          #AK
         $bet = $self->allin_amount
           if ( ( not $self->raised_pot ) and $self->{phase} eq 'preflop' );
     }

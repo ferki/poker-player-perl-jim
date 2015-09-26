@@ -165,13 +165,13 @@ sub raised_pot {
     my $self       = shift;
     my $raised_pot = 0;
     if ( $self->{phase} eq 'preflop' ) {
-        if ( $self->{game_state}->{current_buyin} >
+        if ( $self->{game_state}->{current_buy_in} >
             $self->{game_state}->{small_blind} * 3 )
         {
             $raised_pot = 1;
         }
     }
-    elsif ( $self->{game_state}->{current_buyin} > 0 ) {
+    elsif ( $self->{game_state}->{current_buy_in} > 0 ) {
         $raised_pot = 1;
     }
 

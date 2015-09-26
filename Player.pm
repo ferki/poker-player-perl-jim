@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use POSIX;
 
-our $VERSION = '0.0.31';
+our $VERSION = '0.0.32';
 
 sub new {
     my $class = shift;
@@ -34,39 +34,40 @@ sub strategos {
     my $self = shift;
     my $bet  = 0;
 
-    if ( $self->{phase} eq 'preflop' ) {
+    #    if ( $self->{phase} eq 'preflop' ) {
 
-        #preflop
-        $bet = $self->check_amount if not $self->raised_pot;    # default
+    #preflop
+    #        $bet = $self->check_amount if not $self->raised_pot;    # default
 
-        if ( $self->has_pair ) {                                #pairs
-            $bet = $self->raise_amount if not $self->raised_pot;    # low pairs
-            $bet = $self->allin_amount
-              if ( $self->has_ace or $self->has_king );             # AA,KK
-        }
-        if ( $self->has_ace and $self->has_king ) {                 #AK
-            $bet = $self->raise_amount if not $self->raised_pot;
-        }
-        if ( $self->has_suited and $self->has_connector ) {
-            $bet = $self->raise_amount if not $self->raised_pot;
-        }
-        if ( $self->has_ace
-            and ( $self->has_rank('Q') or $self->has_rank('J') ) )    # AQ,AJ
-        {
-            $bet = $self->raise_amount if not $self->raised_pot;
-        }
+    if ( $self->has_pair ) {    #pairs
+        $bet = $self->raise_amount;    # low pairs
+        $bet = $self->allin_amount
+          if ( $self->has_ace or $self->has_king );    # AA,KK
     }
-    else {
-        #postflop
-        $bet = $self->check_amount;                                   # default
 
-        if ( $self->has_pair ) {
-            $bet = $self->raise_amount if not $self->raised_pot;    # low pairs
-            $bet = $self->raise_amount
-              if ( $self->has_ace or $self->has_king );             # AA,KK
-        }
-    }
-    return 0;
+#        if ( $self->has_ace and $self->has_king ) {                 #AK
+#            $bet = $self->raise_amount if not $self->raised_pot;
+#        }
+#        if ( $self->has_suited and $self->has_connector ) {
+#            $bet = $self->raise_amount if not $self->raised_pot;
+#        }
+#        if ( $self->has_ace
+#            and ( $self->has_rank('Q') or $self->has_rank('J') ) )    # AQ,AJ
+#        {
+#            $bet = $self->raise_amount if not $self->raised_pot;
+#        }
+#    }
+#    else {
+#        #postflop
+#        $bet = $self->check_amount;    # default
+#
+#        if ( $self->has_pair ) {
+#            $bet = $self->raise_amount if not $self->raised_pot;    # low pairs
+#            $bet = $self->raise_amount
+#              if ( $self->has_ace or $self->has_king );             # AA,KK
+#        }
+#    }
+    return $bet;
 }
 
 sub get_my_hand {

@@ -15,6 +15,7 @@ sub bet_request {
     my ( $self, $game_state ) = @_;
     $self->{game_state} = $game_state;
     $self->{hand}       = $self->get_my_hand;
+    $self->{stack}      = $self->get_my_stack;
     return &strategos;
 }
 
@@ -41,6 +42,16 @@ sub get_my_hand {
     foreach my $player ( @{ $game_state->{players} } ) {
         next if $player->{name} ne 'Perl Jim';
         return [ @{ $player->{hole_cards} } ];
+    }
+}
+
+sub get_my_stack {
+    my $self       = shift;
+    my $game_state = $self->{game_state};
+
+    foreach my $player ( @{ $game_state->{players} } ) {
+        next if $player->{name} ne 'Perl Jim';
+        return $player->{stack};
     }
 }
 

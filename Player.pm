@@ -4,7 +4,7 @@ use strict;
 use warnings;
 use POSIX;
 
-our $VERSION = '0.0.20';
+our $VERSION = '0.0.21';
 
 sub new {
     my $class = shift;
@@ -33,9 +33,30 @@ sub version {
 sub strategos {
     my $self = shift;
     my $bet  = 0;
-    if ( $self->has_pair ) {
-        $bet = $self->raise_amount;
-        $bet = $self->allin_amount if ( $self->has_ace or $self->has_king );
+
+    if ( $self->{phase} eq 'preflop' ) {
+
+        #preflop
+        $bet = $self->check_amount if not $self->raised_pot;    # default
+
+        if ( $self->has_pair ) {                                #pairs
+            $bet = $self->raise_amount if not $self->raised_pot;    # low pairs
+            $bet = $self->raise_amount
+              if ( $self->has_ace or $self->has_king );             # AA,KK
+        }
+        if ( $self->has_ace and $self->has_king ) {                 #AK
+            $bet = $self->raise_amount if not $self->raised_pot;
+        }
+    }
+    else {
+        #postflop
+        $bet = $self->check_amount;                                 # default
+
+        if ( $self->has_pair ) {
+            $bet = $self->raise_amount if not $self->raised_pot;    # low pairs
+            $bet = $self->raise_amount
+              if ( $self->has_ace or $self->has_king );             # AA,KK
+        }
     }
     return $bet;
 }
@@ -114,7 +135,7 @@ sub raise_amount {
 
 sub check_amount {
     my $self = shift;
-    return $self->{game_state}->{current_buyin};
+    return $self->{game_state}->{current_buy_in};
 }
 
 sub fold_amount {

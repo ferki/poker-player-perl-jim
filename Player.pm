@@ -3,7 +3,7 @@ package Player;
 use strict;
 use warnings;
 
-our $VERSION = '0.0.7 - The Bond Edition';
+our $VERSION = '0.0.8';
 
 sub new {
     my $class = shift;
@@ -47,6 +47,11 @@ sub get_my_hand {
 sub has_pair {
     my $self = shift;
     return $self->{hand}[0]->{rank} = $self->{hand}[1]->{rank} ? 1 : 0;
+}
+
+sub has_suited {
+    my $self = shift;
+    return $self->{hand}[0]->{suit} = $self->{hand}[1]->{suit} ? 1 : 0;
 }
 
 1;

@@ -3,7 +3,7 @@ package Player;
 use strict;
 use warnings;
 
-our $VERSION = '0.0.12';
+our $VERSION = '0.0.13';
 
 sub new {
     my $class = shift;
@@ -16,6 +16,7 @@ sub bet_request {
     $self->{game_state} = $game_state;
     $self->{hand}       = $self->get_my_hand;
     $self->{stack}      = $self->get_my_stack;
+    $self->{phase}      = $self->get_phase;
     return &strategos;
 }
 
@@ -102,6 +103,25 @@ sub fold_amount {
 sub allin_amount {
     my $self = shift;
     return $self->{stack};
+}
+
+sub get_phase {
+    my $self            = shift;
+    my $community_cards = $self->{game_state}->{community_cards};
+    my $num_cards       = scalar @$community_cards;
+
+    if ( $num_cards == 0 ) {
+        return 'preflop';
+    }
+    elsif ( $num_cards = 3 ) {
+        return 'flop';
+    }
+    elsif ( $num_cards = 4 ) {
+        return 'turn';
+    }
+    elsif ( $num_cards = 5 ) {
+        return 'river';
+    }
 }
 
 1;

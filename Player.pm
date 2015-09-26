@@ -3,7 +3,7 @@ package Player;
 use strict;
 use warnings;
 
-our $VERSION = '0.0.2';
+our $VERSION = '0.0.3';
 
 sub new {
     my ( $class, $args ) = @_;
@@ -26,7 +26,7 @@ sub version {
 
 sub strategos {
     my $game_state = shift;
-    my @hand       = &get_my_hand;
+    my @hand       = &get_my_hand($game_state);
     return 2;
 }
 
@@ -34,7 +34,7 @@ sub get_my_hand {
     my $game_state = shift;
     foreach my $player ( @{ $game_state->{players} } ) {
         next if $player->{name} ne 'Perl Jim';
-        return { $player->{hole_cards} };
+        return @{ $player->{hole_cards} };
     }
 }
 

@@ -3,7 +3,7 @@ package Player;
 use strict;
 use warnings;
 
-our $VERSION = '0.0.14';
+our $VERSION = '0.0.15';
 
 sub new {
     my $class = shift;
@@ -61,7 +61,7 @@ sub get_my_stack {
 
 sub has_pair {
     my $self = shift;
-    return $self->{hand}[0]->{rank} eq $self->{hand}[1]->{rank} ? 1 : 0;
+    return $self->rank_diff == 0 ? 1 : 0;
 }
 
 sub has_suited {
@@ -132,6 +132,21 @@ sub get_phase {
     elsif ( $num_cards = 5 ) {
         return 'river';
     }
+}
+
+sub rank_diff {
+    my $self  = shift;
+    my $rank1 = $self->{hand}[0]->{rank};
+    my $rank2 = $self->{hand}[1]->{rank};
+    my %map   = ( T => 10, J => '11', Q => '12', K => '13', A => '14' );
+
+    $rank1 = $map{$rank1};
+    $rank2 = $map{$rank2};
+
+    my $diff = abs( $rank1 - $rank2 );
+    $diff = 1 if $diff == 12;
+
+    return $diff;
 }
 
 1;

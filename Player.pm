@@ -3,7 +3,7 @@ package Player;
 use strict;
 use warnings;
 
-our $VERSION = '0.0.9';
+our $VERSION = '0.0.10';
 
 sub new {
     my $class = shift;
@@ -31,7 +31,9 @@ sub version {
 sub strategos {
     my $self = shift;
     my $bet  = 0;
-    $bet = 100 if $self->has_pair;
+    if ( $self->has_pair or ( $self->has_ace && $self->has_king ) ) {
+        $bet = 100;
+    }
     return $bet;
 }
 

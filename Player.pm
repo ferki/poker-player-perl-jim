@@ -3,7 +3,7 @@ package Player;
 use strict;
 use warnings;
 
-our $VERSION = '0.0.11';
+our $VERSION = '0.0.12';
 
 sub new {
     my $class = shift;
@@ -31,8 +31,9 @@ sub version {
 sub strategos {
     my $self = shift;
     my $bet  = 0;
-    if ( $self->has_pair or ( $self->has_ace && $self->has_king ) ) {
-        $bet = 100;
+    if ( $self->has_pair ) {
+        $bet = $self->raise_amount;
+        $bet = $self->allin_amount if ( $self->has_ace or $self->has_king );
     }
     return $bet;
 }
@@ -85,7 +86,7 @@ sub has_king {
 
 sub raise_amount {
     my $self = shift;
-    return $self->{game_state}->{current_buyin};
+    return 100;
 }
 
 sub check_amount {

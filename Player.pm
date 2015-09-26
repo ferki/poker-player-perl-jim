@@ -3,7 +3,7 @@ package Player;
 use strict;
 use warnings;
 
-our $VERSION = '0.0.10';
+our $VERSION = '0.0.11';
 
 sub new {
     my $class = shift;
@@ -81,6 +81,26 @@ sub has_king {
              $self->{hand}[0]->{rank} eq 'K'
           or $self->{hand}[1]->{rank} eq 'K'
     ) ? 1 : 0;
+}
+
+sub raise_amount {
+    my $self = shift;
+    return $self->{game_state}->{current_buyin};
+}
+
+sub check_amount {
+    my $self = shift;
+    return $self->{game_state}->{current_buyin};
+}
+
+sub fold_amount {
+    my $self = shift;
+    return 0;
+}
+
+sub allin_amount {
+    my $self = shift;
+    return $self->{stack};
 }
 
 1;

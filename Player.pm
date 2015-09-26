@@ -3,7 +3,7 @@ package Player;
 use strict;
 use warnings;
 
-our $VERSION = '0.0.16';
+our $VERSION = '0.0.17';
 
 sub new {
     my $class = shift;
@@ -91,7 +91,7 @@ sub has_king {
 sub raise_amount {
     my $self = shift;
     return $self->{phase} eq 'preflop'
-      ? $self->{game_state}->{smal_blind} * 2 * 4
+      ? $self->{game_state}->{small_blind} * 2 * 4
       : 100;
 }
 

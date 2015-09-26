@@ -11,6 +11,7 @@ sub new {
 }
 
 sub bet_request {
+    my ( $self, $game_state ) = @_;
     return 2;
 }
 
@@ -21,6 +22,14 @@ sub showdown { }
 sub version {
     my $self = shift;
     return $self->VERSION;
+}
+
+sub get_my_hand {
+    my $game_state = shift;
+    foreach my $player ( @{ $game_state->{players} } ) {
+        next if $player->{name} ne 'Perl Jim';
+        return { $player->{hole_cards} };
+    }
 }
 
 1;

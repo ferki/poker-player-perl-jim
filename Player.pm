@@ -3,16 +3,18 @@ package Player;
 use strict;
 use warnings;
 
-our $VERSION = '0.0.4';
+our $VERSION = '0.0.5';
 
 sub new {
-    my ( $class, $args ) = @_;
-    return bless \$args, $class;
+    my $class = shift;
+    my $self  = {};
+    return bless $self, $class;
 }
 
 sub bet_request {
     my ( $self, $game_state ) = @_;
-    return &strategos($game_state);
+    $self->{game_state} = $game_state;
+    return &strategos;
 }
 
 sub check { }
@@ -25,15 +27,16 @@ sub version {
 }
 
 sub strategos {
-    my $game_state = shift;
-    my $bet        = 2;
-    my @hand       = &get_my_hand($game_state);
+    my $bet  = 2;
+    my @hand = &get_my_hand;
     $bet = 5 if &has_pair;
     return $bet;
 }
 
 sub get_my_hand {
-    my $game_state = shift;
+    my $self       = shift;
+    my $game_state = $self->{game_state};
+
     foreach my $player ( @{ $game_state->{players} } ) {
         next if $player->{name} ne 'Perl Jim';
         return @{ $player->{hole_cards} };
